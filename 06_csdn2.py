@@ -9,11 +9,16 @@ autuor: yr
 
 
 import urllib.request,re,time,random,gzip
+import platform  ##renbin.guo added 2017-10-27
 from bs4 import BeautifulSoup
 
 #定义保存文件函数
 def saveFile(data,i):
-    path = "E:\\projects\\Spider\\06_csdn2\\papers\\paper_"+str(i+1)+".txt"
+    if platform.system() == 'Linux':
+        path = "/root/python_spider/06/page_"+str(i+1)+".txt"
+    else:  ## windows
+        path = "E:\\projects\\Spider\\06_csdn2\\papers\\paper_"+str(i+1)+".txt"
+
     file = open(path,'wb')
     page = '当前页：'+str(i+1)+'\n'
     file.write(page.encode('gbk'))
@@ -62,7 +67,7 @@ class CSDNSpider:
         # 得到BeautifulSoup对象
         soup = BeautifulSoup(data,'html5lib')
         # 计算我的博文总页数
-        tag = soup.find('div',"pagelist")
+        tag = soup.find('div',"pagelist")  ### 这里只要打印一下就很好理解了.  
         pagesData = tag.span.get_text()
         #输出392条  共20页，找到其中的数字
         pagesNum = re.findall(re.compile(pattern=r'共(.*?)页'),pagesData)[0]
@@ -93,10 +98,14 @@ class CSDNSpider:
             writeTime = item.find('span',"link_postdate").get_text()
             readers = re.findall(re.compile(r'\((.*?)\)'),item.find('span',"link_view").get_text())[0]
             comments = re.findall(re.compile(r'\((.*?)\)'),item.find('span',"link_comments").get_text())[0]
-
-            ret.append('日期：'+writeTime+'\n标题：'+title
-                       +'\n链接：http://blog.csdn.net'+link
-                       +'\n'+'阅读：'+readers+'\t评论：'+comments+'\n')
+            if platform.system() == 'Linux':
+                ret.append('日期：'+writeTime+'\n标题：'+title
+                           +'\n链接：http://blog.csdn.net'+link
+                           +'\n'+'阅读：'+readers+'\t评论：'+comments+'\n')
+            else:  ## windows用'\n\r'代表换行
+                ret.append('日期：'+writeTime+'\n\r标题：'+title
+                           +'\n\r链接：http://blog.csdn.net'+link
+                           +'\n\r'+'阅读：'+readers+'\t评论：'+comments+'\n\r')
         return ret
 
 #定义爬虫对象
