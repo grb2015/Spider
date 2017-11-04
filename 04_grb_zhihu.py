@@ -2,7 +2,7 @@
 # @Author: guorenbin
 # @Date:   2017-11-04 19:20:00
 # @Last Modified by:   guorenbin
-# @Last Modified time: 2017-11-04 20:52:46
+# @Last Modified time: 2017-11-04 21:40:30
 
 ## 参考：https://github.com/injetlee/Python/blob/master/login_zhihu.py   稍作改动
 import requests,time
@@ -34,7 +34,7 @@ def login(username,password,oncaptcha):
 
     ### 登录之后，要验证是否是登录了，可以访问settting页面
     data = sessiona.get('https://www.zhihu.com/settings',headers=headers)
-    da = data.content.decode()  ### 获取到的是bypes类型,而f.write需要时str类型，python中str是unicode,所以需要把bytes类型转为str
+    da = data.content.decode('utf-8')  ### 获取到的是utf-8类型,而f.write需要是str类型，python中str是unicode,所以需要把bytes类型转为unicode
     print(da)
     with open("./04_grb_zhihu.html",'w') as f:
     	f.write(str(da))
