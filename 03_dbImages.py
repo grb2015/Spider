@@ -50,6 +50,7 @@ with open("./03_image.html",'w') as f:
 #       它会匹配以https:开头 ,中间不含空格, 且以jpg,png,gif 结尾的字符串(url)
 #       a.这里[^\s]表示https: ~ jpg直接不能有空格,[^\s]*表示https:~jpg之间有任意多个非空格字符。可以用.*代替[^\s]*试试，这样的就会包含空格的url，
 #       b.这里的?表示惰性匹配，如果不加它，则jpg也可能被[^\s]匹配。可以去掉看看效果
+#       d.https:变为了http[s]:以便可以匹配http:
 #       
 #
 #
@@ -62,7 +63,7 @@ with open("./03_image.html",'w') as f:
 #                                                       
 #   
 ###  renbin.guo end 
-for link,t in set(re.findall(r'(https:[^\s]*?(jpg|png|gif))', str(data))):
+for link,t in set(re.findall(r'(http[s]:[^\s]*?(jpg|png|gif))', str(data))):
     print(link)
 #    print(t)
     try:
