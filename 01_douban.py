@@ -1,31 +1,33 @@
 '''
-µÚÒ»¸öÊ¾Àı£º¼òµ¥µÄÍøÒ³ÅÀ³æ
+ç¬¬ä¸€ä¸ªç¤ºä¾‹ï¼šç®€å•çš„ç½‘é¡µçˆ¬è™«
 
-ÅÀÈ¡¶¹°êÊ×Ò³
+çˆ¬å–è±†ç“£é¦–é¡µ
 '''
 
 import urllib.request
 
-#ÍøÖ·
+#ç½‘å€
 url = "http://www.douban.com/"
 
-#ÇëÇó
+#è¯·æ±‚
 request = urllib.request.Request(url)
 
-#ÅÀÈ¡½á¹û
+#çˆ¬å–ç»“æœ
 response = urllib.request.urlopen(request)
 
 data = response.read()
 
-#ÉèÖÃ½âÂë·½Ê½
+#è®¾ç½®è§£ç æ–¹å¼
 data = data.decode('utf-8')
 
-#´òÓ¡½á¹û
-print(data)
+#æ‰“å°ç»“æœ
+#print(data)  ## renbin.guo added 
+with open("./01_douban.html",'w') as f:
+    f.write(data)
 
-#´òÓ¡ÅÀÈ¡ÍøÒ³µÄ¸÷ÀàĞÅÏ¢
+#æ‰“å°çˆ¬å–ç½‘é¡µçš„å„ç±»ä¿¡æ¯
 
-print(type(response))
-print(response.geturl())
-print(response.info())
-print(response.getcode())
+print('type(response) = %s\n\n'%type(response))
+print('response.geturl() = %s\n\n'%response.geturl())
+print('response.info() = %s\n\n'%response.info())
+print('respense.getcode() = %s\n\n'%response.getcode())
