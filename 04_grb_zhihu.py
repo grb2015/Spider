@@ -2,7 +2,7 @@
 # @Author: guorenbin
 # @Date:   2017-11-04 19:20:00
 # @Last Modified by:   guorenbin
-# @Last Modified time: 2017-11-04 21:40:30
+# @Last Modified time: 2017-11-05 10:05:08
 
 ## 参考：https://github.com/injetlee/Python/blob/master/login_zhihu.py   稍作改动
 import requests,time
@@ -33,14 +33,14 @@ def login(username,password,oncaptcha):
     print(resp)
 
     ### 登录之后，要验证是否是登录了，可以访问settting页面
-    data = sessiona.get('https://www.zhihu.com/settings',headers=headers)
-    da = data.content.decode('utf-8')  ### 获取到的是utf-8类型,而f.write需要是str类型，python中str是unicode,所以需要把bytes类型转为unicode
-    print(da)
+    data = sessiona.get('https://www.zhihu.com/settings',headers=headers).content
+    data = data.decode('utf-8')  ### 获取到的是utf-8类型,而f.write需要是str类型，python中str是unicode,所以需要把bytes类型转为unicode
+    print(data)                   ### 如果不进行utf-8 转unicode,则会出现:TypeError: write() argument must be str, not bytes
     with open("./04_grb_zhihu.html",'w') as f:
-    	f.write(da)
+    	f.write(data)
     return resp 
 
 if __name__ == "__main__":
-    login('your_email','your_password',get_captcha)
+    login('473602668@qq.com','grb20110807122',get_captcha)
 
 
