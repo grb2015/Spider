@@ -37,7 +37,7 @@ def login(username,password,oncaptcha):
     da = data.content.decode('utf-8')  ### 获取到的是utf-8类型,而f.write需要是str类型，python中str是unicode,所以需要把bytes类型转为unicode
     print(da)
     with open("./04_grb_zhihu.html",'w') as f:
-    	f.write(str(da))
+    	f.write(da)
     return resp 
 
 if __name__ == "__main__":
