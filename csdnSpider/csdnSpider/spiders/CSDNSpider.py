@@ -5,7 +5,7 @@
 # 时间：2016/06/01
 # 作者：yr
 #############################################################################
-
+#import importlib
 import scrapy, re, json, sys
 
 # 导入框架内置基本类class scrapy.spider.Spider
@@ -22,8 +22,9 @@ from bs4 import BeautifulSoup
 from csdnSpider.items import PaperItem
 
 # 设置编码格式
-reload(sys)
-sys.setdefaultencoding('utf-8')
+#importlib.reload(sys)
+#reload(sys)
+#sys.setdefaultencoding('utf-8')
 
 add = 0
 class CSDNPaperSpider(CrawlSpider):
@@ -31,7 +32,7 @@ class CSDNPaperSpider(CrawlSpider):
     allowed_domains = ["csdn.net"]
     # 定义爬虫的入口网页
     start_urls = ["http://blog.csdn.net/fly_yr/article/list/1"]
-    # 自定义规则
+    # 自定义规则   ##renbin.guo added 2017-11-04  怎么知道爬取一页了后还爬取下一页? 应该就是这里的作用
     rules = [Rule(LxmlLinkExtractor(allow=('/article/list/\d{,2}')), follow=True, callback='parseItem')]
 
     # 定义提取网页数据到Items中的实现函数
