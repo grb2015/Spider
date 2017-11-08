@@ -5,6 +5,11 @@ function: 实现对我的csdn主页所有博文的日期、主题、访问量、
 version: python 3.5.1
 time: 2016/05/29
 author: yr
+
+
+renbin.guo added :  
+    1.  但是有个疑问，d转为str后为什么[]不见了 ? line28
+    2.   write写的内容必须为bytes
 '''
 
 import urllib.request,re,time,random,gzip
@@ -12,17 +17,21 @@ import urllib.request,re,time,random,gzip
 #定义保存文件函数
 def saveFile(data,i):
     #path = "E:\\projects\\Spider\\05_csdn\\papers\\paper_"+str(i+1)+".txt"
-    path = "./05/paper_"+str(i+1)+".txt"
+    path = "./05/paper_"+str(i+1)+".txt"   ## both linux and windows is  ok 
     file = open(path,'wb')
-    page = '当前页：'+str(i+1)+'\n'
-    file.write(page.encode('gbk'))
+    page = '当前页：'+str(i+1)+'\r\n'
+    #file.write(page.encode('gbk'))       
+    file.write(page.encode('utf-8'))       ### write 写 必须写bytes类型的, 这里page现在是str类型，即是unicode，所以需要转为bytes类型。可以选择gbk，也可以utf-8
     #将博文信息写入文件(以utf-8保存的文件声明为gbk)
-    for d in data:
-        d = str(d)+'\n'
-        file.write(d.encode('gbk'))
+    for d in data:  
+       # d = str(d)+'\n'   ## linux 
+        d = str(d)+'\r\n'  #   这里的d是一个list，所以需要转为str才可以进行write    但是有个疑问，d转为str后为什么[]不见了。比如 ['Mich', 'Bob', 'Tra']转为str后
+                                          ## 应该还是['Mich', 'Bob', 'Tra'] 为什么中括号不见了 ?
+        file.write(d.encode('utf-8'))   ### 同样的道理,d现在是一个str,所以需要转为bytes
+        #file.write(d.encode('gbk'))  
     file.close()
 
-#解压缩数据
+#解压缩数据uft
 def ungzip(data):
     try:
         #print("正在解压缩...")
@@ -88,8 +97,8 @@ class CSDNSpider:
         data = data.decode('utf-8')
 
         re_str =[]
-        ### str_title = r'<span class="link_title"><a href=.*?">\r\n\s*(.*?)\s*?</a>'  todo1 ：获取标题的那里会有换行和空格,如果要去掉，可以
-        ###     这几句正则表达式，但是看起来就发展一些了。这里的\s代表空格,\r\n代表换行. \s*就是匹配任意多的空格 ?为惰性匹配。
+        ### str_title = r'<span class="link_title"><a href=.*?">\r\n\s*(.*?)\s*?</a>'  todo1 ：获取标题的那里会有换行和空格,如果要去掉，可以用这一行的正则表达式
+        ###     这几句正则表达式，但是看起来就复杂一些了。这里的\s代表空格,\r\n代表换行. \s*就是匹配任意多的空格 ?为惰性匹配。
         re_str.append(r'<span class="link_title"><a href=.*?">(.*?)</a>')   ## tile
         re_str.append(r'<span class="link_postdate">(.*?)</span>')          ## date
         re_str.append(r'阅读</a>(.*?)</span>')                               ## read count
@@ -135,6 +144,7 @@ class CSDNSpider:
                 'comment count:' +comments[i]+'\r\n'+'http://blog.csdn.net'+links[i]+'\r\n\r\n\r\n')
         for i in range(5):
             print(ret[i])
+       # print('#####ret = %s'%ret)
 
 
 
@@ -167,6 +177,7 @@ for idx in range(pagesNum):
     print("当前页：",idx+1)
     #读取当前页的所有博文，结果为list类型
     papers = cs.readData()
+    print('#####papers = %s'%papers)
     saveFile(papers,idx)
 
 
