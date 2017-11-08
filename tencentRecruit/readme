@@ -1,0 +1,34 @@
+1. 按照原文件，会产生如果错误，结果json文件中什么都无法得到。
+TypeError: Object of type 'bytes' is not JSON serializable
+2. 来分析上面的原因 ：
+
+修改	#def process_item(self,item,spider):
+		#line = json.dumps(dict(item),ensure_ascii=False)+'\n\n'
+		#self.file.write(line)
+	#	print('#########  process_item item = %s ,type(item)=%s\n'%(item,type(item)))
+		#item=item.decode('utf-8')  ### 显然这里item是一个类的实例，所以无法调用decode
+
+		#item['name']= item['name'].decode('utf-8')  ### 而这里，类的成员name 和 positionLink本身就是str了，所以可以直接写文件，不需要decode 
+		#itme['positionLink'] = itme['positionLink'].decode('utf-8')  
+		#self.file.write(item)  ## 这样不行，因为item是一个类实例，write接受的是一个字符串的参数,所以要转为字符串.
+	#	self.file.write(str(item))
+	#	return item
+
+
+得到  grb_tencent.json  
+发现它前几行有:
+
+{'catalog': ['技术类'],
+ 'name': b'WXG01-117 \xce\xa2\xd0\xc5iOS\xbf\xcd\xbb\xa7\xb6\xcb\xd2'
+         b'\xb5\xce\xf1\xbf\xaa\xb7\xa2\xb9\xa4\xb3\xcc\xca\xa6\xa3\xa8\xb9'
+         b'\xe3\xd6\xdd\xa3\xa9',
+ 'number': '1',
+
+即是b类型的。所以无法
+		line = json.dumps(dict(item),ensure_ascii=False)+'\n\n'
+转为json.
+
+
+3.来分析为什么会有b''的字符串
+
+

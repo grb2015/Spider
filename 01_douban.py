@@ -2,6 +2,12 @@
 第一个示例：简单的网页爬虫
 
 爬取豆瓣首页
+
+
+
+ renbin.guo added :
+  ###　疑问，1 .这里decode之后不就成了unicode吗?write不能写unicode啊?不然 TypeError: 'str' does not support the buffer interface
+  ###  		 2. 必须open时候必须wb,不然  error :  must be str, not bytes
 '''
 
 import urllib.request
@@ -17,12 +23,12 @@ response = urllib.request.urlopen(request)
 
 data = response.read()
 
-#设置解码方式
-data = data.decode('utf-8')
+#设置解码方式  这里不需要解码为unicode,不然write会出错
+#data = data.decode('utf-8')
 
 #打印结果
 #print(data)  ## renbin.guo added 
-with open("./01_douban.html",'w') as f:
+with open("./01_douban.html",'wb') as f:    ###　疑问，这里decode之后不就成了unicode吗?write不能写unicode啊?
     f.write(data)
 
 #打印爬取网页的各类信息
