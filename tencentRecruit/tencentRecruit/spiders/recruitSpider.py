@@ -52,8 +52,12 @@ class recruitSpider(CrawlSpider):
 	#爬虫的入口网页url
 	start_urls = ["http://hr.tencent.com/position.php"]
 	#根据任意一页职位url自定义爬取规则（http://hr.tencent.com/position.php?&start=1370#a）
+	#
+	#### renbin.guo added 
+	#在浏览器中查看，注意到无论点击哪一页，都是出现的类似http://hr.tencent.com/position.php?&start=30#a格式的Url
+	### 所以这里的正则表达式写作/position.php\?&start=\d{,4}#a
 	rules = [
-		Rule(LxmlLinkExtractor(allow=('/position.php\?&start=\d{,2}#a')),follow=True,callback='parseItem')	
+		Rule(LxmlLinkExtractor(allow=('/position.php\?&start=\d{,4}#a')),follow=True,callback='parseItem')	
 	]
 
 	#定义提取网页数据到Items中的实现函数
