@@ -32,8 +32,10 @@ class CSDNPaperSpider(CrawlSpider):
     allowed_domains = ["csdn.net"]
     # 定义爬虫的入口网页
     start_urls = ["http://blog.csdn.net/fly_yr/article/list/1"]
-    # 自定义规则   ##renbin.guo added 2017-11-04  怎么知道爬取一页了后还爬取下一页? 应该就是这里的作用
+    # 自定义规则   ##renbin.guo added 2017-11-04  怎么知道爬取一页了后还爬取下一页? 应该就是这里的作用.
+    ##  对这里的正则的解释：  \d代表数字，而{,2}代码出现0~2次  renbin.guo added 2017-10-09 
     rules = [Rule(LxmlLinkExtractor(allow=('/article/list/\d{,2}')), follow=True, callback='parseItem')]
+
 
     # 定义提取网页数据到Items中的实现函数
     def parseItem(self, response):
