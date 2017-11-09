@@ -4,6 +4,10 @@
 #功能：抓取腾讯社招官网的所有职位信息
 #时间：2016/05/31
 #作者：yr
+#
+### renbin.guo added  
+#useage :
+#scrapy  crawl tencentRecruitSpider
 #############################################################################
 
 import scrapy,re,json,sys
@@ -38,8 +42,8 @@ def debug(msg):
     log.msg(str(msg), level=log.DEBUG)
 
 #设置编码格式
-reload(sys) 
-sys.setdefaultencoding('gbk')
+#reload(sys) 
+#sys.setdefaultencoding('gbk')
 
 #自定义爬虫类
 class recruitSpider(CrawlSpider):
@@ -49,7 +53,7 @@ class recruitSpider(CrawlSpider):
 	start_urls = ["http://hr.tencent.com/position.php"]
 	#根据任意一页职位url自定义爬取规则（http://hr.tencent.com/position.php?&start=1370#a）
 	rules = [
-		Rule(LxmlLinkExtractor(allow=('/position.php\?&start=\d{,4}#a')),follow=True,callback='parseItem')	
+		Rule(LxmlLinkExtractor(allow=('/position.php\?&start=\d{,2}#a')),follow=True,callback='parseItem')	
 	]
 
 	#定义提取网页数据到Items中的实现函数
