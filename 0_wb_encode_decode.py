@@ -30,3 +30,20 @@ with open("4.txt",'w') as f:
 a = '中文'
 with open("4.txt",'w') as f:
 	f.write(a)
+
+
+
+
+### 总结：
+
+## 1 wb 则要求的是bytes
+a = '中文'
+a=a.encode('utf-8')
+with open("4.txt",'wb') as f:
+	f.write(a)
+
+
+## 2. w 要求写入str （unicode）
+a = '中文'
+with open("4.txt",'w') as f:
+	f.write(a)
