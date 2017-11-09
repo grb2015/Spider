@@ -20,13 +20,13 @@ class JsonWithEncodingCSDNPipeline(object):
         self.file = codecs.open('papers.json', 'w', encoding='utf-8')
 
     def process_item(self, item, spider):
-        writeTime = json.dumps("日期："+str(item['writeTime']),ensure_ascii=False) + "\n"
+        writeTime = json.dumps("日期："+str(item['writeTime']),ensure_ascii=False) + "\n"  ### python的str类型转为json str(本质上的类型还是python str类型)
         title = json.dumps("标题："+str(item['title']),ensure_ascii=False)+ "\n"
         link = json.dumps("链接："+str(item['link']),ensure_ascii=False)+ "\n"
         readers = json.dumps("阅读次数："+str(item['readers']),ensure_ascii=False)+ "\t"
         comments = json.dumps("评论数量："+str(item['comments']),ensure_ascii=False)+ "\n\n"
-        line = writeTime + title + link + readers + comments
-        self.file.write(line)
+        line = writeTime + title + link + readers + comments   ### json  str拼接
+        self.file.write(line)  
         return item
 
     def spider_closed(self, spider):
