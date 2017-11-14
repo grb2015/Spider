@@ -29,8 +29,19 @@ data = response.read()
 #打印结果
 #print(data)  ## renbin.guo added 
 with open("./01_douban.html",'wb') as f:    ###　疑问，这里decode之后不就成了unicode吗?write不能写unicode啊?
-    f.write(data)
+    f.write(data)							###  解答 ： 'wb'的话可以写bytes 即uft-8等			
+    										###  而如果是'w' 则必须写str 即 unicode,这时候就需要data.decode('utf-8')
+'''
+	这里也可以
+data = data.decode('utf-8')	
+with open("./01_douban.html",'wb') as f:
+f.write(data)	
 
+'''
+
+    										
+data = data.decode('utf-8')			### 同样，这里因为print(str)参数为str 所以需要unicode
+print(data)
 #打印爬取网页的各类信息
 
 print('type(response) = %s\n\n'%type(response))
