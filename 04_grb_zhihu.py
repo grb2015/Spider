@@ -41,6 +41,6 @@ def login(username,password,oncaptcha):
     return resp 
 
 if __name__ == "__main__":
-    login('473602668@qq.com','grb20110807122',get_captcha)
+    login('xxx','xxx',get_captcha)
 
 
